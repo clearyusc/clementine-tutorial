@@ -10,10 +10,11 @@ var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
 
-mongoose.connect('mongodb://localhost:27017/clementinejs');
+mongoose.connect(process.env.MONGO_URI);
 
 	app.use('/public', express.static(process.cwd() + '/public'));
 	app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
+	app.use('/common', express.static(process.cwd() + '/app/common'));
 
 	app.use(session({
 		secret: 'secretClementine',
@@ -26,6 +27,7 @@ mongoose.connect('mongodb://localhost:27017/clementinejs');
 
 	routes(app, passport);
 
+	//var port = process.env.PORT || 8080;
 	app.listen(process.env.PORT, function () {
 		console.log('Listening on port '+process.env.PORT+'...');
 	});
